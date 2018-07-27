@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Active Users</title>
+	  <style>
+		#activeUsers {
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		#activeUsers td, #activeUsers th {
+			border: 1px solid #ddd;
+			padding: 8px;
+		}
+
+		#activeUsers tr:nth-child(even){background-color: #f2f2f2;}
+
+		#activeUsers tr:hover {background-color: #ddd;}
+
+		#activeUsers th {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			text-align: left;
+			background-color: #4CAF50;
+			color: white;
+		}
+	  </style>
+   </head>
+   <script src = "/socket.io/socket.io.js"></script>
+   
+   <script>
+      var socket = io();	   
+		socket.on('connect', function(){
+			console.log('connected');
+		});
+		socket.on('userLogged', function(data){
+			var table = document.getElementById("activeUsers");
+			var row = table.insertRow(-1);
+			var cell1 = row.insertCell(0);
+			var cell2 = row.insertCell(1);
+			cell1.innerHTML = data.name;
+			cell2.innerHTML = data.email;						
+		});
+		socket.on('disconnect', function(){});
+   </script>
+   <body><Center>
+   <strong><h3>Active Users</h3></strong>
+   <table id="activeUsers">
+   <thead><tr><th>name</th><th>email</th></tr></thead>
+   <tbody></tbody>
+   </table>   
+   </center>
+   
+   
+   </body>
+</html>
